@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🍜 짜장면 vs 짬뽕 투표</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="title">🍜 짜장면이 좋아? 짬뽕이 좋아? 🍲</h1>
+      <p class="subtitle">당신의 선택은 무엇인가요?</p>
+    </header>
+
+    <main class="vote-section">
+      <form id="voteForm">
+        <div class="choices">
+          <label class="choice-card jajangmyeon">
+            <input type="radio" name="choice" value="jajangmyeon" required>
+            <div class="choice-content">
+              <div class="emoji">🍜</div>
+              <h2>짜장면</h2>
+              <p>달콤한 춘장의 맛</p>
+            </div>
+          </label>
+
+          <label class="choice-card jjamppong">
+            <input type="radio" name="choice" value="jjamppong" required>
+            <div class="choice-content">
+              <div class="emoji">🍲</div>
+              <h2>짬뽕</h2>
+              <p>매콤한 국물의 맛</p>
+            </div>
+          </label>
+        </div>
+
+        <button type="submit" class="vote-button">투표하기</button>
+      </form>
+
+      <div id="message" class="message"></div>
+
+      <div class="links">
+        <a href="/result" class="link">현재 투표 결과 보기 →</a>
+      </div>
+    </main>
+
+    <footer>
+      <p>💡 투표는 1시간에 한 번만 가능합니다</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

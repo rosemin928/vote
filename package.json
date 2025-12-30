@@ -1,0 +1,20 @@
+{
+  "name": "jajang-vs-jjamppong-vote",
+  "version": "1.0.0",
+  "description": "짜장면 vs 짬뽕 투표 앱",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["vote", "jajangmyeon", "jjamppong"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cookie-parser": "^1.4.6"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
