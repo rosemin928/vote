@@ -32,30 +32,64 @@
 - **백엔드**: Node.js + Express
 - **프론트엔드**: HTML5, CSS3, Vanilla JavaScript
 - **데이터 저장**: JSON 파일 (votes.json)
-- **배포**: Vercel / Railway 지원
+- **배포**: Railway / Vercel 지원
 
 ## 📦 프로젝트 구조
 
 ```
 vote/
-├── server.js              # Express 서버 (메인)
-├── package.json           # 프로젝트 설정
-├── vercel.json           # Vercel 배포 설정
-├── votes.json            # 투표 데이터 (자동 생성)
-├── public/               # 정적 파일
-│   ├── vote.html        # 투표 페이지
-│   ├── result.html      # 결과 페이지
-│   ├── style.css        # 스타일시트
-│   └── script.js        # 클라이언트 JavaScript
-└── README.md            # 프로젝트 문서
+├── config/                   # 설정 파일
+│   └── constants.js         # 상수 정의
+├── src/                     # 서버 소스 코드
+│   ├── app.js              # Express 앱 설정
+│   ├── server.js           # 서버 시작
+│   ├── routes/             # API 라우트
+│   │   └── voteRoutes.js
+│   ├── controllers/        # 비즈니스 로직
+│   │   └── voteController.js
+│   ├── services/           # 데이터 처리 로직
+│   │   └── voteService.js
+│   └── utils/              # 유틸리티 함수
+│       └── ipUtils.js
+├── public/                  # 정적 파일
+│   ├── css/
+│   │   └── style.css       # 스타일시트
+│   ├── js/
+│   │   ├── vote.js        # 투표 페이지 로직
+│   │   └── result.js      # 결과 페이지 로직
+│   └── views/
+│       ├── vote.html      # 투표 페이지
+│       └── result.html    # 결과 페이지
+├── data/                    # 데이터 파일
+│   └── votes.json          # 투표 데이터 (자동 생성)
+├── package.json            # 프로젝트 설정
+├── railway.json            # Railway 배포 설정
+├── vercel.json            # Vercel 배포 설정
+└── README.md              # 프로젝트 문서
 ```
+
+## 🏗️ 아키텍처
+
+### MVC 패턴 기반 구조
+
+- **Model (Services)**: 데이터 처리 및 비즈니스 로직
+- **View (Public)**: 사용자 인터페이스 (HTML/CSS/JS)
+- **Controller**: 요청 처리 및 응답 생성
+
+### 계층 분리
+
+1. **Config Layer**: 환경 설정 및 상수
+2. **Routes Layer**: URL 매핑 및 라우팅
+3. **Controller Layer**: 요청 검증 및 응답 처리
+4. **Service Layer**: 핵심 비즈니스 로직
+5. **Utils Layer**: 공통 유틸리티 함수
 
 ## 🚀 로컬 실행 방법
 
 ### 1. 저장소 클론
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/rosemin928/vote.git
 cd vote
 ```
 
@@ -79,11 +113,26 @@ http://localhost:3000/vote
 
 ## 🌐 배포 방법
 
+### Railway 배포 (추천 - 데이터 영속성)
+
+1. Railway 계정에 로그인: `https://railway.app`
+2. "New Project" → "Deploy from GitHub repo" 선택
+3. `rosemin928/vote` 저장소 선택
+4. 자동 배포 완료!
+
+**또는 CLI 사용:**
+
+```bash
+npm install -g railway
+railway login
+railway up
+```
+
 ### Vercel 배포
 
-1. Vercel 계정에 로그인
+1. Vercel 계정에 로그인: `https://vercel.com`
 2. 저장소를 Vercel에 연결
-3. 자동으로 배포됨 (vercel.json 설정 포함)
+3. 자동으로 배포됨
 
 **또는 CLI 사용:**
 
@@ -92,31 +141,29 @@ npm install -g vercel
 vercel
 ```
 
-### Railway 배포
-
-1. Railway 계정에 로그인
-2. 새 프로젝트 생성
-3. GitHub 저장소 연결
-4. 자동으로 배포됨
+**⚠️ 주의**: Vercel은 서버리스 환경이므로 재배포 시 투표 데이터가 초기화됩니다.
 
 ## 🔒 어뷰징 방지 메커니즘
 
-### 1차 방어: 쿠키
-- 투표 후 `voted=true` 쿠키 설정
-- 유효기간: 1시간
-- 일반 사용자의 중복 투표 방지
+### 3단계 방어 시스템
 
-### 2차 방어: IP 주소
-- 각 투표자의 IP 주소를 votes.json에 저장
-- 쿠키 삭제 시에도 중복 투표 차단
+1. **1차 방어: 쿠키**
+   - 투표 후 `voted=true` 쿠키 설정
+   - 유효기간: 1시간
+   - 일반 사용자의 중복 투표 방지
 
-### 3차 방어: 타임스탬프
-- 마지막 투표 시간 기록
-- 1시간 이내 재투표 시도 시 남은 시간 안내
+2. **2차 방어: IP 주소**
+   - 각 투표자의 IP 주소를 저장
+   - 쿠키 삭제 시에도 중복 투표 차단
+
+3. **3차 방어: 타임스탬프**
+   - 마지막 투표 시간 기록
+   - 1시간 이내 재투표 시도 시 남은 시간 안내
 
 ## 📊 API 엔드포인트
 
 ### POST `/api/vote`
+
 투표를 처리합니다.
 
 **요청:**
@@ -148,6 +195,7 @@ vercel
 ```
 
 ### GET `/api/results`
+
 투표 결과를 조회합니다.
 
 **응답:**
@@ -173,7 +221,9 @@ vercel
 - **직관적인 UX**: 명확한 피드백, 자동 페이지 이동
 - **접근성**: 시맨틱 HTML, 키보드 네비게이션 지원
 
-## 📝 votes.json 데이터 구조
+## 📝 데이터 구조
+
+### votes.json
 
 ```json
 {
@@ -195,6 +245,36 @@ vercel
 PORT=3000  # 서버 포트 (기본값: 3000)
 ```
 
+## 🧪 테스트
+
+서버가 정상 작동하는지 확인:
+
+```bash
+# 서버 시작
+npm start
+
+# API 테스트
+curl http://localhost:3000/api/results
+```
+
+## 🛠️ 개발
+
+### 코드 스타일
+
+- **명확한 변수명**: 축약어 사용 금지
+- **함수 문서화**: JSDoc 주석 사용
+- **모듈화**: 단일 책임 원칙
+- **에러 처리**: 모든 비동기 작업에 try-catch
+
+### 파일 추가 시 위치
+
+- **설정**: `config/`
+- **라우트**: `src/routes/`
+- **컨트롤러**: `src/controllers/`
+- **서비스**: `src/services/`
+- **유틸리티**: `src/utils/`
+- **정적 파일**: `public/css/`, `public/js/`, `public/views/`
+
 ## 📄 라이선스
 
 MIT License
@@ -208,3 +288,5 @@ MIT License
 프로젝트에 대한 문의사항이 있으시면 이슈를 등록해주세요.
 
 ---
+
+**Made with ❤️ by Firebender**

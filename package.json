@@ -2,10 +2,10 @@
   "name": "jajang-vs-jjamppong-vote",
   "version": "1.0.0",
   "description": "짜장면 vs 짬뽕 투표 앱",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "node src/server.js",
+    "dev": "node src/server.js"
   },
   "keywords": ["vote", "jajangmyeon", "jjamppong"],
   "author": "",

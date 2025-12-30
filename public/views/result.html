@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>투표 결과 - 짜장면 vs 짬뽕</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="title">📊 투표 결과</h1>
+      <p class="subtitle">실시간으로 업데이트되는 투표 현황</p>
+    </header>
+
+    <main class="result-section">
+      <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>결과를 불러오는 중...</p>
+      </div>
+
+      <div id="results" class="results hidden">
+        <div class="result-card jajangmyeon-result">
+          <div class="result-emoji">🍜</div>
+          <h2>짜장면</h2>
+          <div class="vote-count" id="jajangmyeonCount">0표</div>
+          <div class="progress-bar">
+            <div class="progress-fill jajangmyeon-bar" id="jajangmyeonBar"></div>
+          </div>
+          <div class="percentage" id="jajangmyeonPercent">0%</div>
+        </div>
+
+        <div class="result-card jjamppong-result">
+          <div class="result-emoji">🍲</div>
+          <h2>짬뽕</h2>
+          <div class="vote-count" id="jjamppongCount">0표</div>
+          <div class="progress-bar">
+            <div class="progress-fill jjamppong-bar" id="jjamppongBar"></div>
+          </div>
+          <div class="percentage" id="jjamppongPercent">0%</div>
+        </div>
+
+        <div class="total-votes">
+          <p>총 <span id="totalVotes">0</span>명이 투표했습니다</p>
+        </div>
+      </div>
+
+      <div class="links">
+        <a href="/vote" class="link primary">다시 투표하기 →</a>
+        <button onclick="loadResults()" class="link refresh">🔄 새로고침</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/result.js"></script>
+</body>
+</html>
